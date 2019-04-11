@@ -44,6 +44,7 @@ const normalize = cached(function (prop) {
   }
 })
 
+// 更新 style 对象
 function updateStyle (oldVnode: VNodeWithData, vnode: VNodeWithData) {
   const data = vnode.data
   const oldData = oldVnode.data
@@ -73,11 +74,13 @@ function updateStyle (oldVnode: VNodeWithData, vnode: VNodeWithData) {
 
   const newStyle = getStyle(vnode, true)
 
+  // 删除style
   for (name in oldStyle) {
     if (isUndef(newStyle[name])) {
       setProp(el, name, '')
     }
   }
+  // 增加style
   for (name in newStyle) {
     cur = newStyle[name]
     if (cur !== oldStyle[name]) {

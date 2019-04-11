@@ -1,4 +1,5 @@
 /* @flow */
+// 对DOM节点操作的一些工具方法
 
 import { namespaceMap } from 'web/util/index'
 

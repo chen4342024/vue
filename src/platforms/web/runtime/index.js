@@ -1,4 +1,8 @@
 /* @flow */
+/**
+ * 这个文件主要针对 core 模块的 Vue 进一步包装
+ * 针对平台做一些特殊的配置以及处理
+ */
 
 import Vue from 'core/index'
 import config from 'core/config'
@@ -20,6 +24,7 @@ import platformDirectives from './directives/index'
 import platformComponents from './components/index'
 
 // install platform specific utils
+// 安装平台特有的工具方法
 Vue.config.mustUseProp = mustUseProp
 Vue.config.isReservedTag = isReservedTag
 Vue.config.isReservedAttr = isReservedAttr
@@ -27,13 +32,16 @@ Vue.config.getTagNamespace = getTagNamespace
 Vue.config.isUnknownElement = isUnknownElement
 
 // install platform runtime directives & components
+// 安装平台的指令以及组件
 extend(Vue.options.directives, platformDirectives)
 extend(Vue.options.components, platformComponents)
 
 // install platform patch function
+// 安装平台的 修补方法 ，（修补方法是在虚拟节点发生变化后，对真实DOM结果进行修改的方法）
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+// 公共的mount方法
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
@@ -46,6 +54,7 @@ Vue.prototype.$mount = function (
 /* istanbul ignore next */
 if (inBrowser) {
   setTimeout(() => {
+    // 开发工具
     if (config.devtools) {
       if (devtools) {
         devtools.emit('init', Vue)
@@ -59,6 +68,7 @@ if (inBrowser) {
         )
       }
     }
+    // 针对开发环境进行一些提醒
     if (process.env.NODE_ENV !== 'production' &&
       process.env.NODE_ENV !== 'test' &&
       config.productionTip !== false &&
